@@ -25,6 +25,7 @@
                                 </div>
                             </div>
                             <div class="form-bottom" ng-controller="loginCtrl">
+                                <p style="color: #de615e;">{{message}}</p>
                                 <form role="form" class="login-form" ng-submit="(username.length) > 0 && (password.length > 0) && login(username, password)">
                                     <div class="form-group">
                                         <label class="sr-only" for="form-username">Username</label>
