@@ -36,6 +36,3 @@ inventory.sublime-workspace
 
 # Bower components
 webApp/assets/bower_components
-
-# Minified files
-webApp/assets/js/

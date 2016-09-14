@@ -18,7 +18,9 @@ angular.module('app').service('userSvc', function ($http) {
             svc.token = val.data;
             return {
                 status: 200,
-                result: {token: svc.token}
+                result: {
+                    token: svc.token
+                }
             };
         }, function (err) {
             return {
