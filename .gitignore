@@ -36,3 +36,6 @@ inventory.sublime-workspace
 
 # Bower components
 webApp/assets/bower_components
+
+# Mac temp file
+.DS_Store
