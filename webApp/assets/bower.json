@@ -16,7 +16,6 @@
   ],
   "dependencies": {
     "bootstrap": "^3.3.7",
-    "components-font-awesome": "^4.6.3",
-    "jquery-backstretch": "^2.0.4"
+    "components-font-awesome": "^4.6.3"
   }
 }

@@ -1,8 +1,8 @@
 
-jQuery(document).ready(function() {
+// jQuery(document).ready(function() {
 	
-    /*
-        Fullscreen background
-    */
-    $.backstretch("img/1.jpg");   
-});
+    
+//         Fullscreen background
+    
+//     $.backstretch("img/1.jpg");   
+// });
