@@ -24,12 +24,13 @@ router.post('/', function(req, res, next) {  
                 return next(err);
             }      
             if (!valid) {
-                return res.sendStatus(401);
+                return res.send("addadasasd");
             }
             var token = jwt.encode({
                 username: user.username
-            }, config.secret)
-            res.sendStatus(token);  
+            }, config.secret);
+
+            res.send(token);
         })  
     })
 })

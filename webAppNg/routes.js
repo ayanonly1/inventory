@@ -9,5 +9,8 @@ angular.module('app')
         }).when('/login', {
             controller: 'loginCtrl',
             templateUrl: 'login.html'
-        })
+        }).when('/profile', {
+            templateUrl: 'profile.html',
+            controller: 'profileController'
+        });
     })

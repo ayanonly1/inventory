@@ -14,7 +14,14 @@ angular.module('app').service('userSvc', function ($http) {
             password: password
         }).then(function (val) {
             svc.token = val.data;
-            return svc.getUser();
+            return {
+                status: 200,
+                result: {user: svc.getUser()}
+            };
+        }, function (err) {
+            return {
+                status: 401
+            };
         })
     }
-})
+});
