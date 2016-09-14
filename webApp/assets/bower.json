@@ -1,0 +1,22 @@
+{
+  "name": "IMS",
+  "homepage": "https://github.com/ayanonly1/inventory",
+  "authors": [
+    "arnab003 <arnab.saha@fusioncharts.com>"
+  ],
+  "description": "Inventory Management System",
+  "main": "",
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "bootstrap": "^3.3.7",
+    "components-font-awesome": "^4.6.3",
+    "jquery-backstretch": "^2.0.4"
+  }
+}
