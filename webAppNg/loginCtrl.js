@@ -1,6 +1,5 @@
 
-var app = angular.module('app'),
-	route
+var app = angular.module('app');
 
 app.controller('loginCtrl', function ($scope, userSvc, $location) {
 	$scope.message = '';
@@ -11,6 +10,7 @@ app.controller('loginCtrl', function ($scope, userSvc, $location) {
             	$scope.message = 'Invalid user';
             }
             else {
+            	window.localStorage.token = response.result.token;
             	$location.path("/profile");
             }
         })

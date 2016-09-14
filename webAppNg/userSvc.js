@@ -1,11 +1,13 @@
 angular.module('app').service('userSvc', function ($http) {
     var svc = this;
-    svc.getUser = function () {
-        return $http.get('/api/users/', {
+    svc.getUser = function (token, callback) {
+        $http.get('/api/users/', {
             headers : {
-                'X-Auth': this.token
+                'X-Auth': token
             }
-        })
+        }).then(function(res) {
+            callback(res);
+        });
     }
 
     svc.login = function (username, password) {
@@ -16,7 +18,7 @@ angular.module('app').service('userSvc', function ($http) {
             svc.token = val.data;
             return {
                 status: 200,
-                result: {user: svc.getUser()}
+                result: {token: svc.token}
             };
         }, function (err) {
             return {
