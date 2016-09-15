@@ -15,6 +15,8 @@
         }).when('/profile', {
             templateUrl: 'profile.html',
             controller: 'profileController'
+        }).when('/profile/adduser', {
+            templateUrl: 'adduser.html'
         });
     };
 

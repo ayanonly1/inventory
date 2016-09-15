@@ -14,8 +14,8 @@
         $window.sessionStorage.removeItem('token');
       },
       isLoggedIn = function () {
-        var token = $window.sessionStorage.token;
-        return !token ? false : true;
+        var token = getToken();
+        return token;
       };
 
     return {
