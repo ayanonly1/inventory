@@ -1,9 +1,12 @@
-angular.module('app')
-    .config(function($routeProvider) {  
+(function () {
+    var app = angular.module('app');
+
+    function config($routeProvider, $locationProvider) {
         $routeProvider.when('/', {
             //controller: 'dashboardCtrl',
             templateUrl: 'dashboard.html'
-        }).when('/register', {
+        }).
+        when('/register', {
             //controller: 'registerCtrl',
             templateUrl: 'register.html'
         }).when('/login', {
@@ -13,4 +16,19 @@ angular.module('app')
             templateUrl: 'profile.html',
             controller: 'profileController'
         });
-    })
+    };
+
+    function run($rootScope, $location, authentication) {
+        $rootScope.$on('$routeChangeStart', function(event, nextRoute, currentRoute) {
+            if ($location.path() === '/profile' && !authentication.isLoggedIn()) {
+                $location.path('/');
+            }
+        });
+    };
+
+    app.config(['$routeProvider', '$locationProvider', config])
+    .run(['$rootScope', '$location', 'authentication', run]);
+
+})();
+    
+

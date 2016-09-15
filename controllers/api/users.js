@@ -18,7 +18,7 @@ router.get('/', function(req, res, next) {  
         }    
         res.json(user);  
     })
-})
+});
 
 router.post('/', function(req, res, next) {  
     var user = new User({
