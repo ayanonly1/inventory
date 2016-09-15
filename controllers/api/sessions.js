@@ -15,16 +15,16 @@ router.post('/', function(req, res, next) {  
     .exec(function(err, user) {    
         if (err) {
             return next(err);
-        }    
+        }
         if (!user) {
             return res.sendStatus(401);
-        }    
-        bcrypt.compare(req.body.password, user.password, function(err, valid) {      
+        }
+        bcrypt.compare(req.body.password, user.password, function(err, valid) {     
             if (err) {
                 return next(err);
             }      
             if (!valid) {
-                return res.send("addadasasd");
+                return res.send(401);
             }
             var token = jwt.encode({
                 username: user.username

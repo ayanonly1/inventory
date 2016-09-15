@@ -1,7 +1,7 @@
 
 var app = angular.module('app');
 
-app.controller('loginCtrl', function ($scope, userSvc, $location) {
+app.controller('loginCtrl', function ($scope, userSvc, $location, authentication) {
 	$scope.message = '';
     $scope.login = function (username, password) {
         userSvc.login(username, password)
@@ -12,7 +12,7 @@ app.controller('loginCtrl', function ($scope, userSvc, $location) {
                 $scope.password = '';
             }
             else {
-            	window.localStorage.token = response.result.token;
+            	authentication.saveToken(response.result.token);
             	$location.path("/profile");
             }
         })
