@@ -12,6 +12,10 @@ var products = db.Schema({
         type: String,
         required: true
     },
+    category: {
+        type: String,
+        required: true
+    },
     imageLocation: {
         type: String,
         required: true

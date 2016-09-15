@@ -4,11 +4,13 @@ var router = require('express').Router(),
 
 router.post('/', function(req, res, next) {  
     var entry,
-        promise;
+        promise,
+        timeNow = new Date().getTime();
 
         entry = new products({
-            productId: 'pid' + new Date().getTime(),
+            productId: 'pid' + timeNow,
             productName: req.body.productName,
+            category: req.body.category,
             imageLocation: req.body.imageLocation
         });
 
@@ -22,6 +24,69 @@ router.post('/', function(req, res, next) {  
             console.log(err); // jshint ignore:line
             res.status(404).end();
         });
+});
+
+router.get('/', function (req, res) {
+    var entries,
+        i,
+        id = req.query.id,
+        keys = req.query.keys,
+        keyNames = keys && keys.split(','),
+        projection = {},
+        query = {};
+
+    (id !== undefined) && (query.productId = id);
+    
+    if (keys !== undefined) {
+        for (i = 0; i < keyNames.length; i++) {
+            projection[keyNames[i]] = 1;
+        }
+    }
+
+    entries = products.find(query, projection);
+
+    entries.then(function (result) {
+        console.log('Retreived Successfully!'); // jshint ignore:line
+        res.status(200).json(result).end();
+    })
+    .catch(function (err) {
+        console.log('Retreive Failed!'); // jshint ignore:line
+        console.log(err); // jshint ignore:line
+        res.status(404).end();
+    });
+});
+
+router.delete('/', function (req, res) {
+    var promise = products.remove({
+        productId: req.query.id
+    });
+
+    promise.then(function () {
+        console.log('Deleted Successfully!'); // jshint ignore:line
+        res.status(200).end();
+    }).catch(function (err) {
+        console.log('Deletion Failed!'); // jshint ignore:line
+        console.log(err); // jshint ignore:line
+        res.status(404).end();
+    });
+});
+
+router.put('/', function (req, res) {
+    var body = req.body,
+        promise = products.update(
+            body.select,
+            {
+                $set: body.updateData
+            });
+
+    promise.then(function () {
+        console.log('Updated Successfully!'); // jshint ignore:line
+        res.status(200).end();
+    }).catch(function (err) {
+        console.log('Updation Failed!'); // jshint ignore:line
+        console.log(err); // jshint ignore:line
+        res.status(404).end();
+    });
 });
 
 module.exports = router;
