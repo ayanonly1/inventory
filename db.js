@@ -9,7 +9,7 @@ mongoose.connection.on('error', function (err) {
 });
 
 mongoose.connection.once('open', function () {
-	console.log('mongoDB connected...')
+	console.log('mongoDB connected...');
 });
 
 module.exports = mongoose;
