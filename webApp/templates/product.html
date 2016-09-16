@@ -1,0 +1,43 @@
+<style type="text/css">
+	.product-list div{
+		width: 150px;
+	    float: left;
+	    margin : 5px;
+	}
+	.product-list input {
+		width: 20px;
+		height: 35px;
+	}
+	.product-list span {
+		display: block;
+		text-align: center;
+	}
+</style>
+<div>
+	<h1>Products List</h1>
+	<div class="product-list" ng-repeat = 'product in products'>
+		<div>
+			<img src="{{product.imageLocation}}" width="80" height="80";>
+			<span class="product-name">{{ product.productName }}</span>
+			<span class="product-qty">0000</span>
+			<button value="+">+</button>
+			<input type="text" value="0" id="product_qty"/>
+			<button value="-">-</button>
+		</div>
+	</div>
+</div>
+
+<script type="text/javascript">
+	jQuery("body").on("click", ".product-list button", function(e){
+		var target = e.target,
+			result = $("#product_qty").val() * 1;
+		
+		if(target.value === "+") result = result + 1;
+		else result = result - 1;
+
+		if(result <= 0) $("#product_qty").val(0);
+		else $("#product_qty").val(result); 
+
+	});
+</script>
+

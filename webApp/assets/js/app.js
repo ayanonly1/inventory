@@ -68,6 +68,14 @@ app.controller('loginCtrl', ["$scope", "userSvc", "$location", "authentication",
 }])
 
 var app = angular.module('app');
+app.controller('productController', ["$scope", "$http", function ($scope, $http) {
+	var token = window.sessionStorage.token;
+	$scope.products = [];
+	$http.get('/api/products').then(function (response) {
+		$scope.products = response.data;
+	});
+}]);
+var app = angular.module('app');
 app.controller('profileController', ["$scope", "userSvc", "authentication", "$location", function ($scope, userSvc, authentication, $location) {
 	var token = window.sessionStorage.token;
 
@@ -127,6 +135,9 @@ app.controller('profileController', ["$scope", "userSvc", "authentication", "$lo
         }).when('/profile/adduser', {
             templateUrl: 'adduser.html',
             controller: 'registrationController'
+        }).when('/product', {
+            templateUrl: 'product.html',
+            controller: 'productController'
         });
     };
 
