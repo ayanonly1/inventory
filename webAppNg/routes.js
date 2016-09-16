@@ -17,6 +17,9 @@
             controller: 'profileController'
         }).when('/profile/adduser', {
             templateUrl: 'adduser.html'
+        })
+        .when('/addproduct', {
+            templateUrl: 'addproduct.html'
         });
     };
 

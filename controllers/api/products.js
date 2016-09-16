@@ -1,6 +1,9 @@
 'use strict'
 var router = require('express').Router(),
-    products = require('../../models/products');
+    products = require('../../models/products'),
+    multer  = require('multer'),
+    storage,
+    upload;
 
 router.post('/', function(req, res, next) {  
     var entry,
@@ -87,6 +90,20 @@ router.put('/', function (req, res) {
         console.log(err); // jshint ignore:line
         res.status(404).end();
     });
+});
+
+storage = multer.diskStorage({
+  destination: './webApp/assets/img/product-image/',
+  filename: function (req, file, cb) {
+    var datetimestamp = Date.now();
+    cb(null, 'pImg-' + datetimestamp + '.' + file.originalname.split('.')[file.originalname.split('.').length -1]);
+  }
+})
+ 
+upload = multer({ storage: storage });
+
+router.post('/uploadPImg', upload.single('file'), function(req,res,next){
+    res.send(req.file);
 });
 
 module.exports = router;
