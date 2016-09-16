@@ -168,6 +168,13 @@ img { max-width: 100%; }
 	margin-top: 25px;
 }
 
+.green {
+	color: 'green';
+}
+
+.red {
+	color: 'red';
+}
 
 /***** Media queries *****/
 

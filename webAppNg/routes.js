@@ -16,14 +16,15 @@
             templateUrl: 'profile.html',
             controller: 'profileController'
         }).when('/profile/adduser', {
-            templateUrl: 'adduser.html'
+            templateUrl: 'adduser.html',
+            controller: 'registrationController'
         });
     };
 
     function run($rootScope, $location, authentication) {
         $rootScope.$on('$routeChangeStart', function(event, nextRoute, currentRoute) {
-            if ($location.path() === '/profile' && !authentication.isLoggedIn()) {
-                $location.path('/');
+            if (/\/profile|\//g.test($location.path()) && !authentication.isLoggedIn()) {
+                $location.path('/login');
             }
         });
     };

@@ -3,6 +3,7 @@ app.controller('profileController', function ($scope, userSvc, authentication, $
 	var token = window.sessionStorage.token;
 
 	userSvc.getUser(token, function (res) {
+		console.log(res);
 		$scope.username = res.data.username;
 	});
 	$scope.logout = function () {

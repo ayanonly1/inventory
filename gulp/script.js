@@ -7,7 +7,7 @@ gulp.task('js', function () {
     gulp.src(['webAppNg/module.js', 'webAppNg/**/*.*'])
         .pipe(concat('app.js'))
         .pipe(ngAnnotate())
-        .pipe(uglify())
+        // .pipe(uglify())
         .pipe(gulp.dest('webApp/assets/js'));
 })
 

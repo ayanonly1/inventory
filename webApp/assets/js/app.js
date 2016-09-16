@@ -1,1 +1,178 @@
-"use strict";angular.module("app",[]),angular.module("app",["ngRoute"]);var baseUrl="http://localhost:8080/",app=angular.module("app");app.controller("loginCtrl",["$scope","userSvc","$location",function(e,t,n){e.message="",e.login=function(o,r){t.login(o,r).then(function(t){401===t.status?(e.message="*Invalid username or password!",e.username="",e.password=""):(window.localStorage.token=t.result.token,n.path("/profile"))})}}]);var app=angular.module("app");app.controller("profileController",["$scope","userSvc",function(e,t){var n=window.localStorage.token;t.getUser(n,function(t){e.username=t.data.username})}]),angular.module("app").config(["$routeProvider",function(e){e.when("/",{templateUrl:"dashboard.html"}).when("/register",{templateUrl:"register.html"}).when("/login",{controller:"loginCtrl",templateUrl:"login.html"}).when("/profile",{templateUrl:"profile.html",controller:"profileController"})}]),angular.module("app").service("userSvc",["$http",function(e){var t=this;t.getUser=function(t,n){e.get("/api/users/",{headers:{"X-Auth":t}}).then(function(e){n(e)})},t.login=function(n,o){return e.post("/api/sessions/",{username:n,password:o}).then(function(e){return t.token=e.data,{status:200,result:{token:t.token}}},function(e){return{status:401}})}}]);
+'use strict'
+angular.module('app', []);
+angular.module('app', ['ngRoute']);
+var baseUrl = 'http://localhost:8080/';
+
+(function () {
+  var app = angular.module('app')
+  app.service('authentication', authentication);
+  authentication.$inject = ['$http', '$window'];
+  function authentication ($http, $window) {
+    var saveToken = function (token) {
+        $window.sessionStorage.token = token;
+      },
+      getToken = function () {
+        return $window.sessionStorage.token;
+      },
+      logout = function() {
+        $window.sessionStorage.removeItem('token');
+      },
+      isLoggedIn = function () {
+        var token = getToken();
+        return token;
+      };
+
+    return {
+      saveToken : saveToken,
+      getToken : getToken,
+      logout : logout,
+      isLoggedIn: isLoggedIn
+    };
+  }
+})();
+
+
+// jQuery(document).ready(function() {
+	
+    
+//         Fullscreen background
+    
+//     $.backstretch("img/1.jpg");   
+// });
+
+
+var app = angular.module('app');
+
+app.controller('loginCtrl', ["$scope", "userSvc", "$location", "authentication", function ($scope, userSvc, $location, authentication) {
+	$scope.message = '';
+    $scope.login = function (username, password) {
+        userSvc.login(username, password)
+        .then(function (response) {
+            if (response.status === 401) {
+            	$scope.message = '*Invalid username or password!';
+                $scope.username = '';
+                $scope.password = '';
+            }
+            else {
+            	authentication.saveToken(response.result.token);
+            	$location.path("/profile");
+            }
+        })
+    };
+}])
+
+var app = angular.module('app');
+app.controller('profileController', ["$scope", "userSvc", "authentication", "$location", function ($scope, userSvc, authentication, $location) {
+	var token = window.sessionStorage.token;
+
+	userSvc.getUser(token, function (res) {
+		console.log(res);
+		$scope.username = res.data.username;
+	});
+	$scope.logout = function () {
+		authentication.logout();
+		$location.path('/login');
+	}
+}]);
+(function () {
+	var app = angular.module('app');
+	app.controller('registrationController', ["$scope", "userSvc", function ($scope, userSvc) {
+		function validate(userData) {
+			return userData.mobileNo && userData.mobileNo.length === 10 && userData.name && $scope.password;
+		}
+
+		$scope.register = function () {
+			var userData = {
+				name: $scope.name,
+				userId: $scope.email,
+				mobileNo: $scope.mobileno,
+				password: $scope.password
+			};
+
+			if (validate(userData)) {
+				userSvc.register(userData).then(function (data) {
+					$scope.message = 'Registration Succesful';
+				});
+			}
+			else {
+				$scope.message = 'Invalid data';
+			}
+		};
+
+	}]);
+})();
+(function () {
+    var app = angular.module('app');
+
+    function config($routeProvider, $locationProvider) {
+        $routeProvider.when('/', {
+            //controller: 'dashboardCtrl',
+            templateUrl: 'dashboard.html'
+        }).
+        when('/register', {
+            //controller: 'registerCtrl',
+            templateUrl: 'register.html'
+        }).when('/login', {
+            controller: 'loginCtrl',
+            templateUrl: 'login.html'
+        }).when('/profile', {
+            templateUrl: 'profile.html',
+            controller: 'profileController'
+        }).when('/profile/adduser', {
+            templateUrl: 'adduser.html',
+            controller: 'registrationController'
+        });
+    };
+
+    function run($rootScope, $location, authentication) {
+        $rootScope.$on('$routeChangeStart', function(event, nextRoute, currentRoute) {
+            if (/\/profile|\//g.test($location.path()) && !authentication.isLoggedIn()) {
+                $location.path('/login');
+            }
+        });
+    };
+
+    app.config(['$routeProvider', '$locationProvider', config])
+    .run(['$rootScope', '$location', 'authentication', run]);
+
+})();
+    
+
+
+angular.module('app').service('userSvc', ["$http", function ($http) {
+    var svc = this;
+    svc.getUser = function (token, callback) {
+        $http.get('/api/users/get', {
+            headers : {
+                'X-Auth': token
+            }
+        }).then(function(res) {
+            callback(res);
+        });
+    };
+
+    svc.login = function (username, password) {
+        return $http.post('/api/sessions/login', {
+            username: username,
+            password: password
+        }).then(function (val) {
+            svc.token = val.data;
+            return {
+                status: 200,
+                result: {
+                    token: svc.token
+                }
+            };
+        }, function (err) {
+            return {
+                status: 401
+            };
+        })
+    };
+
+    svc.register = function (userData) {
+        return $http.post('/api/users/add', userData).then(function (val) {
+            return val.data.status;
+        });
+    };
+}]);
