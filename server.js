@@ -13,6 +13,7 @@ app.use(function(req, res, next) {
 
 app.use('/api/sessions', require('./controllers/api/sessions'));
 app.use('/api/users', require('./controllers/api/users'));
+app.use('/api/products', require('./controllers/api/products'));
 app.use(require('./controllers/static'));
 
 app.listen(3333, function () {

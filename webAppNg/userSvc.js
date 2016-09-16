@@ -26,7 +26,7 @@ angular.module('app').service('userSvc', function ($http) {
             return {
                 status: 401
             };
-        })
+        });
     };
 
     svc.register = function (userData) {
