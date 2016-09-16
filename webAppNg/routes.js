@@ -18,6 +18,9 @@
         }).when('/profile/adduser', {
             templateUrl: 'adduser.html',
             controller: 'registrationController'
+        }).when('/addproduct', {
+            templateUrl: 'addproduct.html',
+            controller: 'addProductCtrl'
         }).when('/product', {
             templateUrl: 'product.html',
             controller: 'productController'
