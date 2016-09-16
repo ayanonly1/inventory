@@ -4,14 +4,16 @@ Inventory Management
 PreRequest
 
 1. Node install
-2. mongoDB install and started
+2. Bower install - 'npm install -g bower'
+3. mongoDB install and started
 
 ======================================
 
 Steps to start the server
 
 1. run 'npm install' to install the dependency
-2. run 'gulp dev' to start the server (the server will run with localhost:3000)
+2. run 'bower install' to install the dependency
+3. run 'gulp dev' to start the server (the server will run with localhost:3000)
 
 ======================================
 Adding HTML files
