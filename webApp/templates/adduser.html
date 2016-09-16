@@ -1,3 +1,11 @@
 <div>
 	<h1> Add user menu </h1>
+	<form>
+		Name: <input type = 'text' ng-model = 'name'></input>
+		Email: <input type = 'email' ng-model = 'email'></input>
+		Password: <input type = 'password' ng-model = 'password'></input>
+		MobileNo: <input type = 'text' ng-model = 'mobileno'></input>
+		<button ng-click = 'register()'>Register</button>
+		<p ng-model = 'message'>{{message}}</p>
+	</form>
 </div>

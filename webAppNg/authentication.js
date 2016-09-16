@@ -3,7 +3,6 @@
   app.service('authentication', authentication);
   authentication.$inject = ['$http', '$window'];
   function authentication ($http, $window) {
-
     var saveToken = function (token) {
         $window.sessionStorage.token = token;
       },

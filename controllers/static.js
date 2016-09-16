@@ -4,7 +4,8 @@ var path = require('path');
 var router = express.Router();
 router.get('/', function (req, res) {
   res.sendFile(path.resolve('webApp/index.html'));
-})
+});
+
 router.use(express.static(__dirname + '/../webApp/assets/'));
 router.use(express.static(__dirname + '/../webApp/templates/'));
 

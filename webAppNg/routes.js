@@ -16,17 +16,19 @@
             templateUrl: 'profile.html',
             controller: 'profileController'
         }).when('/profile/adduser', {
-            templateUrl: 'adduser.html'
+            templateUrl: 'adduser.html',
+            controller: 'registrationController'
         })
         .when('/addproduct', {
-            templateUrl: 'addproduct.html'
+            templateUrl: 'addproduct.html',
+            controller: 'addProductCtrl'
         });
     };
 
     function run($rootScope, $location, authentication) {
         $rootScope.$on('$routeChangeStart', function(event, nextRoute, currentRoute) {
-            if ($location.path() === '/profile' && !authentication.isLoggedIn()) {
-                $location.path('/');
+            if (/\/profile|\//g.test($location.path()) && !authentication.isLoggedIn()) {
+                $location.path('/login');
             }
         });
     };

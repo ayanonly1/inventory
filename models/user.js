@@ -3,14 +3,26 @@
 var db = require('../db');
 
 var user = db.Schema({
-    username: {
+    userId: {
         type: String,
-        required: true
+        required: true,
+        unique: true
     },
     password: {
         type: String,
         required: true,
         select: false
+    },
+    name: {
+    	type: String,
+    	required: true
+    },
+    mobileNo: {
+    	type: Number,
+    	required: true
+    },
+    profileImage: {
+    	type: String
     }
 });
 
