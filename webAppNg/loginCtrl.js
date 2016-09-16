@@ -15,7 +15,7 @@ app.controller('loginCtrl', function ($scope, userSvc, $location, authentication
             	$scope.message = '*Invalid username or password!';
                 $scope.username = '';
                 $scope.password = '';
-                $('#usrname').focus();
+                // $('#usrname').focus();
             }
             else {
             	authentication.saveToken(response.result.token);

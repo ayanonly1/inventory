@@ -57,7 +57,7 @@ app.controller('loginCtrl', ["$scope", "userSvc", "$location", "authentication",
             	$scope.message = '*Invalid username or password!';
                 $scope.username = '';
                 $scope.password = '';
-                $('#usrname').focus();
+                // $('#usrname').focus();
             }
             else {
             	authentication.saveToken(response.result.token);
@@ -71,10 +71,10 @@ var app = angular.module('app');
 app.controller('profileController', ["$scope", "userSvc", "authentication", "$location", function ($scope, userSvc, authentication, $location) {
 	var token = window.sessionStorage.token;
 
-	userSvc.getUser(token, function (res) {
-		console.log(res);
-		$scope.username = res.data.username;
+	userSvc.getUser(token).then(function (res) {
+		$scope.username = res.data.name;
 	});
+
 	$scope.logout = function () {
 		authentication.logout();
 		$location.path('/login');
@@ -145,21 +145,21 @@ app.controller('profileController', ["$scope", "userSvc", "authentication", "$lo
     
 
 
-angular.module('app').service('userSvc', ["$http", function ($http) {
+angular.module('app').service('userSvc', ["$http", "authentication", function ($http, authentication) {
     var svc = this;
-    svc.getUser = function (token, callback) {
-        $http.get('/api/users/get', {
+    svc.getUser = function (token) {
+        return $http.get('/api/users/get', {
             headers : {
                 'X-Auth': token
             }
         }).then(function(res) {
-            callback(res);
+            return res;
         });
     };
 
-    svc.login = function (username, password) {
+    svc.login = function (userId, password) {
         return $http.post('/api/sessions/login', {
-            username: username,
+            userId: userId,
             password: password
         }).then(function (val) {
             svc.token = val.data;
@@ -177,8 +177,15 @@ angular.module('app').service('userSvc', ["$http", function ($http) {
     };
 
     svc.register = function (userData) {
-        return $http.post('/api/users/add', userData).then(function (val) {
-            return val.data.status;
-        });
+        return $http({
+                method: 'POST',
+                url: '/api/users/add',
+                headers: {
+                    'X-Auth': authentication.getToken()
+                },
+                data: userData
+            }).then(function (val) {
+                return val.data.status;
+            });
     };
 }]);
